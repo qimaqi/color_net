@@ -49,9 +49,9 @@ def val():
             img[:, :, 0:1] = img[:, :, 0:1] * 100
             img[:, :, 1:3] = img[:, :, 1:3] * 255 - 128
             img = img.astype(np.float64)
-            print('*L color',img[:, :, 0])
-            print('*a color',img[:, :, 1])
-            print('*b color',img[:, :, 2])
+            print('*L color',np.mean(img[:, :, 0]))
+            print('*a color',np.mean(img[:, :, 1]))
+            print('*b color',np.mean(img[:, :, 2]))
             img = lab2rgb(img)
             color_name = './colorimg/' + str(i) + '.jpg'
             plt.imsave(color_name, img)
