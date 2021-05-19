@@ -20,7 +20,7 @@ original_transform = transforms.Compose([
 ])
 
 have_cuda = torch.cuda.is_available()
-epochs = 5
+epochs = 16
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
