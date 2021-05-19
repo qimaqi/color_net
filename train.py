@@ -19,7 +19,7 @@ original_transform = transforms.Compose([
 ])
 
 have_cuda = torch.cuda.is_available()
-epochs = 1
+epochs = 5
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization//'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
@@ -36,6 +36,7 @@ optimizer = optim.Adadelta(color_model.parameters())
 
 def train(epoch):
     color_model.train()
+    print('Epoch',epoch)
 
     try:
         for batch_idx, (data, classes) in enumerate(train_loader):
@@ -66,9 +67,9 @@ def train(epoch):
                 messagefile.write(message)
                 torch.save(color_model.state_dict(), 'colornet_params.pkl')
             messagefile.close()
-                # print('Train Epoch: {}[{}/{}({:.0f}%)]\tLoss: {:.9f}\n'.format(
-                #     epoch, batch_idx * len(data), len(train_loader.dataset),
-                #     100. * batch_idx / len(train_loader), loss.data[0]))
+            print('Train Epoch: {}[{}/{}({:.0f}%)]\tLoss: {:.9f}\n'.format(
+                epoch, batch_idx * len(data), len(train_loader.dataset),
+                100. * batch_idx / len(train_loader), loss.data[0]))
     except Exception:
         logfile = open('log.txt', 'w')
         logfile.write(traceback.format_exc())
