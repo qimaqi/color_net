@@ -21,7 +21,7 @@ original_transform = transforms.Compose([
 have_cuda = torch.cuda.is_available()
 epochs = 1
 
-data_dir = "../images256/"
+data_dir = '/cluster/scratch/qimaqi/data_5k/truth_256/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
 train_set_size = len(train_set)
 train_set_classes = train_set.classes
