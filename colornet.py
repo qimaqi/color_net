@@ -128,7 +128,7 @@ class ColorizationNet(nn.Module):
         x = F.relu(self.bn3(self.conv2(x)))
         x = F.relu(self.bn4(self.conv3(x)))
         x = self.upsample(x)
-        x = F.sigmoid(self.bn5(self.conv4(x)))
+        x = torch.sigmoid(self.bn5(self.conv4(x)))
         x = self.upsample(self.conv5(x))
         return x
 

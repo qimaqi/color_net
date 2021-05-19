@@ -24,6 +24,8 @@ epochs = 5
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization//'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
 train_set_size = len(train_set)
+print('train_set_size',train_set_size)
+
 train_set_classes = train_set.classes
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True, num_workers=4)
 color_model = ColorNet()
