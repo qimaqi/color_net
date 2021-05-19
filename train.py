@@ -68,7 +68,7 @@ def train(epoch):
                     epoch, batch_idx * len(data), len(train_loader.dataset),
                     100. * batch_idx / len(train_loader), loss.item())
                 messagefile.write(message)
-                torch.save(color_model.state_dict(), 'colornet_params.pkl')
+                torch.save(color_model.state_dict(), 'colornet_params.pth')
             messagefile.close()
             print('Train Epoch: {}[{}/{}({:.0f}%)]\tLoss: {:.9f}\n'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
