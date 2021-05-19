@@ -3,6 +3,7 @@ import traceback
 
 import torch
 import torch.nn.functional as F
+import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
 from torchvision import transforms
@@ -39,6 +40,7 @@ optimizer = optim.Adadelta(color_model.parameters())
 def train(epoch):
     color_model.train()
     print('Epoch',epoch)
+    l2_loss = nn.MSELoss()
 
     try:
         for batch_idx, (data, classes) in enumerate(train_loader):
@@ -54,16 +56,18 @@ def train(epoch):
             classes = Variable(classes)
             optimizer.zero_grad()
             class_output, output = color_model(original_img, original_img)
-            ems_loss = torch.pow((img_ab - output), 2).sum() / torch.from_numpy(np.array(list(output.size()))).prod()
-            cross_entropy_loss = 1/300 * F.cross_entropy(class_output, classes)
-            loss = ems_loss + cross_entropy_loss
+            # ems_loss = torch.pow((img_ab - output), 2).sum() / torch.from_numpy(np.array(list(output.size()))).prod()
+            ems_loss = l2_loss(output,img_ab)
+
+            # cross_entropy_loss = 1/300 * F.cross_entropy(class_output, classes)
+            loss = ems_loss # + cross_entropy_loss
             print(loss)
             #lossmsg = 'loss: %.9f\n' % (loss.data[0])
             #messagefile.write(lossmsg)
             ems_loss.backward(retain_graph=True) # retrain varaibale
-            cross_entropy_loss.backward()
+            # cross_entropy_loss.backward()
             optimizer.step()
-            if batch_idx % 500 == 0:
+            if batch_idx % 1000 == 0:
                 message = 'Train Epoch:%d\tPercent:[%d/%d (%.0f%%)]\tLoss:%.9f\n' % (
                     epoch, batch_idx * len(data), len(train_loader.dataset),
                     100. * batch_idx / len(train_loader), loss.item())
