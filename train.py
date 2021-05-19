@@ -60,7 +60,7 @@ def train(epoch):
             print(loss)
             #lossmsg = 'loss: %.9f\n' % (loss.data[0])
             #messagefile.write(lossmsg)
-            ems_loss.backward(retain_variables=True)
+            ems_loss.backward(retain_graph=True) # retrain varaibale
             cross_entropy_loss.backward()
             optimizer.step()
             if batch_idx % 500 == 0:
