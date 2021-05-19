@@ -57,8 +57,9 @@ def train(epoch):
             ems_loss = torch.pow((img_ab - output), 2).sum() / torch.from_numpy(np.array(list(output.size()))).prod()
             cross_entropy_loss = 1/300 * F.cross_entropy(class_output, classes)
             loss = ems_loss + cross_entropy_loss
-            lossmsg = 'loss: %.9f\n' % (loss.data[0])
-            messagefile.write(lossmsg)
+            print(loss)
+            #lossmsg = 'loss: %.9f\n' % (loss.data[0])
+            #messagefile.write(lossmsg)
             ems_loss.backward(retain_variables=True)
             cross_entropy_loss.backward()
             optimizer.step()
