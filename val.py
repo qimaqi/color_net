@@ -10,8 +10,8 @@ from myimgfolder import ValImageFolder
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-data_dir = "../places205"
+ 
+data_dir = '/cluster/scratch/qimaqi/data_5k/colorization_test' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = torch.cuda.is_available()
 
 val_set = ValImageFolder(data_dir)
@@ -19,7 +19,7 @@ val_set_size = len(val_set)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=1, shuffle=False, num_workers=1)
 
 color_model = ColorNet()
-color_model.load_state_dict(torch.load('colornet_params.pkl'))
+color_model.load_state_dict(torch.load('colornet_params.pth'))
 if have_cuda:
     color_model.cuda()
 
