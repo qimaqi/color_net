@@ -30,8 +30,8 @@ print('train_set_size',train_set_size)
 train_set_classes = train_set.classes
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=16, shuffle=True, num_workers=4)
 color_model = ColorNet()
-if os.path.exists('./colornet_params_20_5.pth'):
-    color_model.load_state_dict(torch.load('colornet_params_20_5.pth'))
+if os.path.exists('./pretrain.pkl'):
+    color_model.load_state_dict(torch.load('pretrain.pkl')) # 'colornet_params_20_5.pth'
 if have_cuda:
     color_model.cuda()
 optimizer = optim.Adadelta(color_model.parameters())
@@ -84,7 +84,7 @@ def train(epoch):
         logfile.write(traceback.format_exc())
         logfile.close()
     finally:
-        torch.save(color_model.state_dict(), 'colornet_params_20_5_l1.pth')
+        torch.save(color_model.state_dict(), 'colornet_params_20_5_pretrain.pth')
 
 
 for epoch in range(1, epochs + 1):
