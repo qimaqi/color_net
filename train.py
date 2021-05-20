@@ -20,7 +20,7 @@ original_transform = transforms.Compose([
 ])
 
 have_cuda = torch.cuda.is_available()
-epochs = 16
+epochs = 32
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
@@ -61,7 +61,7 @@ def train(epoch):
 
             # cross_entropy_loss = 1/300 * F.cross_entropy(class_output, classes)
             loss = ems_loss # + cross_entropy_loss
-            print(loss)
+            print('*a*b l2 normalized loss',loss)
             #lossmsg = 'loss: %.9f\n' % (loss.data[0])
             #messagefile.write(lossmsg)
             ems_loss.backward(retain_graph=True) # retrain varaibale
@@ -82,7 +82,7 @@ def train(epoch):
         logfile.write(traceback.format_exc())
         logfile.close()
     finally:
-        torch.save(color_model.state_dict(), 'colornet_params.pth')
+        torch.save(color_model.state_dict(), 'colornet_params_20_5.pth')
 
 
 for epoch in range(1, epochs + 1):
