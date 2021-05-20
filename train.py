@@ -75,9 +75,10 @@ def train(epoch):
                 messagefile.write(message)
                 torch.save(color_model.state_dict(), 'colornet_params.pth')
             messagefile.close()
-            print('Train Epoch: {}[{}/{}({:.0f}%)]\tLoss: {:.9f}\n'.format(
-                epoch, batch_idx * len(data), len(train_loader.dataset),
-                100. * batch_idx / len(train_loader), loss.item()))
+            if batch_idx % 100 == 0:
+                print('Train Epoch: {}[{}/{}({:.0f}%)]\tLoss: {:.9f}\n'.format(
+                    epoch, batch_idx * len(data), len(train_loader),
+                    100. * batch_idx / len(train_loader), loss.item()))
     except Exception:
         logfile = open('log.txt', 'w')
         logfile.write(traceback.format_exc())
