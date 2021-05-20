@@ -28,7 +28,7 @@ train_set_size = len(train_set)
 print('train_set_size',train_set_size)
 
 train_set_classes = train_set.classes
-train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True, num_workers=4)
+train_loader = torch.utils.data.DataLoader(train_set, batch_size=16, shuffle=True, num_workers=4)
 color_model = ColorNet()
 if os.path.exists('./colornet_params_20_5.pth'):
     color_model.load_state_dict(torch.load('colornet_params_20_5.pth'))
