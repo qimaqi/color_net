@@ -20,8 +20,8 @@ original_transform = transforms.Compose([
 ])
 
 have_cuda = torch.cuda.is_available()
-epochs = 64
-dir_checkpoint = '/cluster/scratch/qimaqi/colornet/'
+epochs = 128
+dir_checkpoint = '/cluster/scratch/qimaqi/colornet_pretrain_27_5/'
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
@@ -69,19 +69,11 @@ def train(epoch):
             ems_loss.backward(retain_graph=True) # retrain varaibale
             # cross_entropy_loss.backward()
             optimizer.step()
-            if batch_idx % 2000 == 0:
+            if batch_idx % 10000 == 0:
                 message = 'Train Epoch:%d\tPercent:[%d/%d (%.0f%%)]\tLoss:%.9f\n' % (
                     epoch, batch_idx * len(data), len(train_loader),
                     100. * batch_idx / len(train_loader), loss.item())
                 messagefile.write(message)
-                try:
-                    os.mkdir(dir_checkpoint)
-                    print('Created checkpoint directory')
-                except OSError:
-                    pass
-                torch.save(color_model.state_dict(),
-                        dir_checkpoint + str(epoch) + '.pth')
-                print('Checkpoint %s saved! ',epoch)
                 #torch.save(color_model.state_dict(), 'colornet_params.pth')
             messagefile.close()
             # if batch_idx % 100 == 0:
@@ -93,7 +85,16 @@ def train(epoch):
         logfile.write(traceback.format_exc())
         logfile.close()
     finally:
-        torch.save(color_model.state_dict(), 'colornet_params_25_5_pretrain.pth')
+        if epoch%1==0:
+            try:
+                os.mkdir(dir_checkpoint)
+                print('Created checkpoint directory')
+            except OSError:
+                pass
+            torch.save(color_model.state_dict(),
+                    dir_checkpoint + str(epoch) + '.pth')
+            print('Checkpoint %s saved! ',epoch)
+        #torch.save(color_model.state_dict(), 'colornet_params_27_5_pretrain.pth')
 
 
 for epoch in range(1, epochs + 1):
