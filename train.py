@@ -21,7 +21,7 @@ original_transform = transforms.Compose([
 
 have_cuda = torch.cuda.is_available()
 epochs = 128
-dir_checkpoint = '/cluster/scratch/qimaqi/colornet_pretrain_27_5/'
+dir_checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_27_5/'
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
@@ -31,8 +31,8 @@ print('train_set_size',train_set_size)
 train_set_classes = train_set.classes
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=16, shuffle=True, num_workers=4)
 color_model = ColorNet()
-if os.path.exists('./pretrain.pkl'):
-    color_model.load_state_dict(torch.load('pretrain.pkl')) # 'colornet_params_20_5.pth'
+#if os.path.exists('./pretrain.pkl'):
+#    color_model.load_state_dict(torch.load('pretrain.pkl')) # 'colornet_params_20_5.pth'
 if have_cuda:
     color_model.cuda()
 optimizer = optim.Adadelta(color_model.parameters())
@@ -85,7 +85,7 @@ def train(epoch):
         logfile.write(traceback.format_exc())
         logfile.close()
     finally:
-        if epoch%1==0:
+        if epoch%4==0:
             try:
                 os.mkdir(dir_checkpoint)
                 print('Created checkpoint directory')
