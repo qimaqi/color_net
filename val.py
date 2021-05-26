@@ -11,15 +11,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 
  
-data_dir = '/cluster/scratch/qimaqi/data_5k/colorization_test' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
+data_dir = '/cluster/scratch/qimaqi/data_5k/colorization_val/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = torch.cuda.is_available()
+checkpoint = '/cluster/scratch/qimaqi/colornet/1.pth'
+save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/1/'
+
+try:
+    os.mkdir(save_color_dir)
+    print('Created grayimage directory')
+except OSError:
+    pass
 
 val_set = ValImageFolder(data_dir)
 val_set_size = len(val_set)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=1, shuffle=False, num_workers=1)
 
 color_model = ColorNet()
-color_model.load_state_dict(torch.load('colornet_params_20_5_pretrain.pth')) #'colornet_params_20_5.pth'
+#color_model.load_state_dict(torch.load('colornet_params_20_5_pretrain.pth')) #'colornet_params_20_5.pth'
+color_model.load_state_dict(torch.load(checkpoint)) #'colornet_params_20_5.pth'
 if have_cuda:
     color_model.cuda()
 
@@ -34,7 +43,7 @@ def val():
         for img in original_img:
             pic = img.squeeze().numpy()
             pic = pic.astype(np.float64)
-            plt.imsave(gray_name, pic, cmap='gray')
+            #plt.imsave(gray_name, pic, cmap='gray')
         w = original_img.size()[2]
         h = original_img.size()[3]
         scale_img = data[1].unsqueeze(1).float()
@@ -53,7 +62,7 @@ def val():
             print('*a color',np.mean(img[:, :, 1]))
             print('*b color',np.mean(img[:, :, 2]))
             img = lab2rgb(img)
-            color_name = './colorimg/' + str(i) + '.jpg'
+            color_name = save_color_dir + str(i) + '.jpg'
             plt.imsave(color_name, img)
             i += 1
         # use the follow method can't get the right image but I don't know why
