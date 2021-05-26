@@ -28,7 +28,7 @@ val_loader = torch.utils.data.DataLoader(val_set, batch_size=1, shuffle=False, n
 
 color_model = ColorNet()
 #color_model.load_state_dict(torch.load('colornet_params_20_5_pretrain.pth')) #'colornet_params_20_5.pth'
-color_model.load_state_dict(torch.load(checkpoint)) #'colornet_params_20_5.pth'
+color_model.load_state_dict(torch.load(checkpoint,map_location=torch.device('cpu'))) #'colornet_params_20_5.pth'
 if have_cuda:
     color_model.cuda()
 
