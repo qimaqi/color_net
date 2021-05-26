@@ -18,7 +18,7 @@ save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/1/'
 
 try:
     os.mkdir(save_color_dir)
-    print('Created grayimage directory')
+    print('Created color image directory')
 except OSError:
     pass
 
