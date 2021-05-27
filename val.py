@@ -58,7 +58,7 @@ def val():
             img[:, :, 0:1] = img[:, :, 0:1] * 100
             img[:, :, 1:3] = img[:, :, 1:3] * 255 - 128
             img = img.astype(np.float64)
-            print('finish percentage',float(i)/1023)
+            print('finish percentage',float(i)/100)# 23)
             print('*L color',np.mean(img[:, :, 0]))
             print('*a color',np.mean(img[:, :, 1]))
             print('*b color',np.mean(img[:, :, 2]))
