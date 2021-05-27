@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
  
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization_val/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = False #torch.cuda.is_available()
-checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_27_5/4.pth' # './colornet_params_25_5_pretrain.pth'    #
-save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/4/'
+checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_27_5/8.pth' # './colornet_params_25_5_pretrain.pth'    #
+save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/8/'
 
 try:
     os.mkdir(save_color_dir)
@@ -59,9 +59,9 @@ def val():
             img[:, :, 1:3] = img[:, :, 1:3] * 255 - 128
             img = img.astype(np.float64)
             print('finish percentage',float(i)/1023)
-            #print('*L color',np.mean(img[:, :, 0]))
-            #print('*a color',np.mean(img[:, :, 1]))
-            #print('*b color',np.mean(img[:, :, 2]))
+            print('*L color',np.mean(img[:, :, 0]))
+            print('*a color',np.mean(img[:, :, 1]))
+            print('*b color',np.mean(img[:, :, 2]))
             img = lab2rgb(img)
             color_name = save_color_dir + str(i) + '.jpg'
             plt.imsave(color_name, img)
