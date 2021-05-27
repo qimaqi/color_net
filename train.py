@@ -20,8 +20,8 @@ original_transform = transforms.Compose([
 ])
 
 have_cuda = torch.cuda.is_available()
-epochs = 128
-dir_checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_27_5/'
+epochs = 32
+dir_checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5/'
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
@@ -85,7 +85,7 @@ def train(epoch):
         logfile.write(traceback.format_exc())
         logfile.close()
     finally:
-        if epoch%4==0:
+        if epoch%1==0:
             try:
                 os.mkdir(dir_checkpoint)
                 print('Created checkpoint directory')
