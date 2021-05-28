@@ -21,7 +21,7 @@ original_transform = transforms.Compose([
 
 have_cuda = torch.cuda.is_available()
 epochs = 32
-dir_checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5/'
+dir_checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/'
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
@@ -59,7 +59,7 @@ def train(epoch):
             optimizer.zero_grad()
             class_output, output = color_model(original_img, original_img)
             # ems_loss = torch.pow((img_ab - output), 2).sum() / torch.from_numpy(np.array(list(output.size()))).prod()
-            ems_loss = l2_loss(output,img_ab)+l1_loss(output,img_ab)
+            ems_loss = l2_loss(output,img_ab) # +l1_loss(output,img_ab)
 
             # cross_entropy_loss = 1/300 * F.cross_entropy(class_output, classes)
             loss = ems_loss # + cross_entropy_loss
@@ -69,7 +69,7 @@ def train(epoch):
             ems_loss.backward(retain_graph=True) # retrain varaibale
             # cross_entropy_loss.backward()
             optimizer.step()
-            if batch_idx % 10000 == 0:
+            if batch_idx % 1000000 == 0:
                 message = 'Train Epoch:%d\tPercent:[%d/%d (%.0f%%)]\tLoss:%.9f\n' % (
                     epoch, batch_idx * len(data), len(train_loader),
                     100. * batch_idx / len(train_loader), loss.item())
