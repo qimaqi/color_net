@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
  
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization_test/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = False #torch.cuda.is_available()
-checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5/6.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    #
-save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/6_test/'
+checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5/7.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    #
+save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/7_test/'
 
 try:
     os.mkdir(save_color_dir)
