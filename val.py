@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
  
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization_test/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = False #torch.cuda.is_available()
-checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5/1.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    #
-save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/1_test/'
+checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5/2.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    #
+save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/2_test/'
 
 try:
     os.mkdir(save_color_dir)
@@ -66,8 +66,8 @@ def val():
             color_name = save_color_dir + str(i) + '.jpg'
             plt.imsave(color_name, img)
             i += 1
-        # if i == 100:
-        #     break
+        if i == 100:
+            break
         # use the follow method can't get the right image but I don't know why
         # color_img = torch.from_numpy(color_img.transpose((0, 3, 1, 2)))
         # sprite_img = make_grid(color_img)
