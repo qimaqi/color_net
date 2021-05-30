@@ -11,10 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
  
-data_dir = '/cluster/scratch/qimaqi/data_5k/color_infer' #'/cluster/scratch/qimaqi/data_5k/colorization_val/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
+data_dir = '/cluster/scratch/qimaqi/data_5k/color_infer_r2d2' #'/cluster/scratch/qimaqi/data_5k/colorization_val/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = False #torch.cuda.is_available()
 checkpoint = './pretrain.pkl'#'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/32.pth'#'/cluster/scratch/qimaqi/colornet/49.pth'#'/cluster/scratch/qimaqi/colornet_scratch_28_5/12.pth' #'./colornet_params_25_5_pretrain.pth'  #'/cluster/scratch/qimaqi/colornet_scratch_28_5/32.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    #
-save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/infer_color/'
+save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/infer_color_r2d2/'
 
 try:
     os.mkdir(save_color_dir)
