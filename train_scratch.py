@@ -21,7 +21,7 @@ original_transform = transforms.Compose([
 
 have_cuda = torch.cuda.is_available()
 epochs = 128
-dir_checkpoint = '/cluster/scratch/qimaqi/colornet_pretrain_30_5/'
+dir_checkpoint = '/cluster/scratch/qimaqi/colornet_30_5/'
 
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
 train_set = TrainImageFolder(data_dir, original_transform)
@@ -31,8 +31,8 @@ print('train_set_size',train_set_size)
 train_set_classes = train_set.classes
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=16, shuffle=True, num_workers=4)
 color_model = ColorNet()
-if os.path.exists('./pretrain.pkl'):
-    color_model.load_state_dict(torch.load('pretrain.pkl')) # 'colornet_params_20_5.pth'
+# if os.path.exists('./pretrain.pkl'):
+#     color_model.load_state_dict(torch.load('pretrain.pkl')) # 'colornet_params_20_5.pth'
 if have_cuda:
     color_model.cuda()
 optimizer = optim.Adadelta(color_model.parameters())
@@ -94,7 +94,7 @@ def train(epoch):
             torch.save(color_model.state_dict(),
                     dir_checkpoint + str(epoch) + '.pth')
             print('Checkpoint %s saved! ',epoch)
-        torch.save(color_model.state_dict(), 'colornet_params_30_5_pretrain.pth')
+        torch.save(color_model.state_dict(), 'colornet_params_30_5.pth')
 
 
 for epoch in range(1, epochs + 1):
