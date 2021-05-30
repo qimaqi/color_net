@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
  
 data_dir = '/cluster/scratch/qimaqi/data_5k/colorization_val/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = False #torch.cuda.is_available()
-checkpoint = '/cluster/scratch/qimaqi/colornet_scratch_28_5/12.pth' #'./colornet_params_25_5_pretrain.pth'  #'/cluster/scratch/qimaqi/colornet_scratch_28_5/32.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    #
+checkpoint = '/cluster/scratch/qimaqi/colornet/64.pth'#'/cluster/scratch/qimaqi/colornet_scratch_28_5/12.pth' #'./colornet_params_25_5_pretrain.pth'  #'/cluster/scratch/qimaqi/colornet_scratch_28_5/32.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    #
 save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/12_indoor/'
 
 try:
@@ -38,34 +38,34 @@ def val():
 
     i = 0
     for data, _ in val_loader:
-        if i in (9,564,577):
-            original_img = data[0].unsqueeze(1).float()
-            gray_name = './gray/' + str(i) + '.jpg'
-            for img in original_img:
-                pic = img.squeeze().numpy()
-                pic = pic.astype(np.float64)
-                #plt.imsave(gray_name, pic, cmap='gray')
-            w = original_img.size()[2]
-            h = original_img.size()[3]
-            scale_img = data[1].unsqueeze(1).float()
-            if have_cuda:
-                original_img, scale_img = original_img.cuda(), scale_img.cuda()
+        original_img = data[0].unsqueeze(1).float()
+        gray_name = './gray/' + str(i) + '.jpg'
+        for img in original_img:
+            pic = img.squeeze().numpy()
+            pic = pic.astype(np.float64)
+            #plt.imsave(gray_name, pic, cmap='gray')
+        w = original_img.size()[2]
+        h = original_img.size()[3]
+        scale_img = data[1].unsqueeze(1).float()
+        if have_cuda:
+            original_img, scale_img = original_img.cuda(), scale_img.cuda()
 
-            original_img, scale_img = Variable(original_img, volatile=True), Variable(scale_img)
-            _, output = color_model(original_img, scale_img)
-            color_img = torch.cat((original_img, output[:, :, 0:w, 0:h]), 1)
-            color_img = color_img.data.cpu().numpy().transpose((0, 2, 3, 1))
-            for img in color_img:
-                img[:, :, 0:1] = img[:, :, 0:1] * 100
-                img[:, :, 1:3] = img[:, :, 1:3] * 255 - 128
-                img = img.astype(np.float64)
-                print('finish percentage',float(i)/1000)# 23)
-                print('*L color',np.mean(img[:, :, 0]))
-                print('*a color',np.mean(img[:, :, 1]))
-                print('*b color',np.mean(img[:, :, 2]))
-                img = lab2rgb(img)
-                color_name = save_color_dir + str(i) + '.jpg'
-                plt.imsave(color_name, img)
+        original_img, scale_img = Variable(original_img, volatile=True), Variable(scale_img)
+        _, output = color_model(original_img, scale_img)
+        color_img = torch.cat((original_img, output[:, :, 0:w, 0:h]), 1)
+        color_img = color_img.data.cpu().numpy().transpose((0, 2, 3, 1))
+        for img in color_img:
+            img[:, :, 0:1] = img[:, :, 0:1] * 100
+            img[:, :, 1:3] = img[:, :, 1:3] * 255 - 128
+            img = img.astype(np.float64)
+            print('finish percentage',float(i)/1000)# 23)
+            print('*L color',np.mean(img[:, :, 0]))
+            print('*a color',np.mean(img[:, :, 1]))
+            print('*b color',np.mean(img[:, :, 2]))
+            img = lab2rgb(img)
+            color_name = save_color_dir + str(i) + '.jpg'
+            plt.imsave(color_name, img)
+            print(i,' image save')
         i += 1
 
         # use the follow method can't get the right image but I don't know why
