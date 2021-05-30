@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
  
 data_dir = '/cluster/scratch/qimaqi/data_5k/color_infer_r2d2/' #'/cluster/scratch/qimaqi/data_5k/colorization_val/' # "../places205"  # '/cluster/scratch/qimaqi/data_5k/colorization_test/
 have_cuda = False #torch.cuda.is_available()
-checkpoint = './colornet_params_25_5_pretrain.pth' #'./colornet_params_20_5_pretrain.pth'  #'./pretrain.pkl'#'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/32.pth'#'/cluster/scratch/qimaqi/colornet/49.pth'#'/cluster/scratch/qimaqi/colornet_scratch_28_5/12.pth' #'./colornet_params_25_5_pretrain.pth'  #'/cluster/scratch/qimaqi/colornet_scratch_28_5/32.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    
-save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/infer_color_r2d2_25_5/'
+checkpoint = '/cluster/scratch/qimaqi/colornet/48.pth'#'./colornet_params_25_5_pretrain.pth' #'./colornet_params_20_5_pretrain.pth'  #'./pretrain.pkl'#'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/32.pth'#'/cluster/scratch/qimaqi/colornet/49.pth'#'/cluster/scratch/qimaqi/colornet_scratch_28_5/12.pth' #'./colornet_params_25_5_pretrain.pth'  #'/cluster/scratch/qimaqi/colornet_scratch_28_5/32.pth'  #'./pretrain.pkl' #'/cluster/scratch/qimaqi/colornet_scratch_28_5_l2/1.pth' # './colornet_params_25_5_pretrain.pth'    
+save_color_dir = '/cluster/scratch/qimaqi/data_5k/demo/infer_color_r2d2_48/'
 
 try:
     os.mkdir(save_color_dir)
