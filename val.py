@@ -38,7 +38,7 @@ def val():
 
     i = 0
     for data, _ in val_loader:
-        if i in ((9,564,577)):
+        if i in (9,564,577):
             original_img = data[0].unsqueeze(1).float()
             gray_name = './gray/' + str(i) + '.jpg'
             for img in original_img:
@@ -67,7 +67,7 @@ def val():
                 color_name = save_color_dir + str(i) + '.jpg'
                 plt.imsave(color_name, img)
             i += 1
-            
+
         # use the follow method can't get the right image but I don't know why
         # color_img = torch.from_numpy(color_img.transpose((0, 3, 1, 2)))
         # sprite_img = make_grid(color_img)
