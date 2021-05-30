@@ -66,7 +66,7 @@ def val():
                 img = lab2rgb(img)
                 color_name = save_color_dir + str(i) + '.jpg'
                 plt.imsave(color_name, img)
-            i += 1
+        i += 1
 
         # use the follow method can't get the right image but I don't know why
         # color_img = torch.from_numpy(color_img.transpose((0, 3, 1, 2)))
