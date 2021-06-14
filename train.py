@@ -19,20 +19,23 @@ original_transform = transforms.Compose([
     #transforms.ToTensor()
 ])
 
+##### Change it for your implementation
 have_cuda = torch.cuda.is_available()
-epochs = 128
-dir_checkpoint = '/cluster/scratch/qimaqi/colornet_pretrain_30_5/'
-
-data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'  # "../images256/"
+epochs = 128                                                
+dir_checkpoint = '/cluster/scratch/qimaqi/colornet_pretrain_30_5/'  # save dir of your result checkpoint
+save_name = 'colornet_params_30_5_pretrain.pth'  # change for your case
+data_dir = '/cluster/scratch/qimaqi/data_5k/colorization/'          # data path for training, should have subfolder full with images
 train_set = TrainImageFolder(data_dir, original_transform)
 train_set_size = len(train_set)
 print('train_set_size',train_set_size)
+#####
+
 
 train_set_classes = train_set.classes
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=16, shuffle=True, num_workers=4)
 color_model = ColorNet()
-if os.path.exists('./pretrain.pkl'):
-    color_model.load_state_dict(torch.load('pretrain.pkl')) # 'colornet_params_20_5.pth'
+if os.path.exists('./colorization.pkl'):
+    color_model.load_state_dict(torch.load('colorization.pkl')) 
 if have_cuda:
     color_model.cuda()
 optimizer = optim.Adadelta(color_model.parameters())
@@ -58,28 +61,18 @@ def train(epoch):
             classes = Variable(classes)
             optimizer.zero_grad()
             class_output, output = color_model(original_img, original_img)
-            # ems_loss = torch.pow((img_ab - output), 2).sum() / torch.from_numpy(np.array(list(output.size()))).prod()
             ems_loss = (l2_loss(output,img_ab)  +l1_loss(output,img_ab))/2
-
-            # cross_entropy_loss = 1/300 * F.cross_entropy(class_output, classes)
-            loss = ems_loss # + cross_entropy_loss
+            loss = ems_loss 
             print('*a*b l2 normalized loss',loss)
-            #lossmsg = 'loss: %.9f\n' % (loss.data[0])
-            #messagefile.write(lossmsg)
-            ems_loss.backward(retain_graph=True) # retrain varaibale
-            # cross_entropy_loss.backward()
+            ems_loss.backward(retain_graph=True) 
             optimizer.step()
             if batch_idx % 10000000 == 0:
                 message = 'Train Epoch:%d\tPercent:[%d/%d (%.0f%%)]\tLoss:%.9f\n' % (
                     epoch, batch_idx * len(data), len(train_loader),
                     100. * batch_idx / len(train_loader), loss.item())
                 messagefile.write(message)
-                #torch.save(color_model.state_dict(), 'colornet_params.pth')
+
             messagefile.close()
-            # if batch_idx % 100 == 0:
-            #     print('Train Epoch: {}[{}/{}({:.0f}%)]\tLoss: {:.9f}\n'.format(
-            #         epoch, batch_idx * len(data), len(train_loader),
-            #         100. * batch_idx / len(train_loader), loss.item()))
     except Exception:
         logfile = open('log.txt', 'w')
         logfile.write(traceback.format_exc())
@@ -94,7 +87,7 @@ def train(epoch):
             torch.save(color_model.state_dict(),
                     dir_checkpoint + str(epoch) + '.pth')
             print('Checkpoint %s saved! ',epoch)
-        torch.save(color_model.state_dict(), 'colornet_params_30_5_pretrain.pth')
+        torch.save(color_model.state_dict(), save_name)   
 
 
 for epoch in range(1, epochs + 1):
