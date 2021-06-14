@@ -1,7 +1,13 @@
-# colorNet-pytorch
-A Neural Network For Automatic Image Colorization
+# Let there be color-pytorch
+## Background
+This project is adapted from [repo](https://github.com/shufanwu/colorNet-pytorch) and compatible with the leonhard environment
+cudnn/7.6.4
+cuda/10.1.243
+python_gpu/3.8.5
 
-This project is a PyTorch version of the [ColorNet](http://hi.cs.waseda.ac.jp/~iizuka/projects/colorization/en/) issued on SIGGRAPH 2016. Please check out the original website for the details.
+A Neural Network For Automatic Image Colorization is build in Pytorch.
+
+Check out more detail from original website [Let there be color](http://hi.cs.waseda.ac.jp/~iizuka/projects/colorization/en/). 
 
 ## Overview
 * Net model
